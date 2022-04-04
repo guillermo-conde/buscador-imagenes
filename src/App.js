@@ -3,11 +3,17 @@ import { Field, Form, Formik } from "formik";
 import './Header.css';
 import './Content.css';
 import './Article.css';
+import './Boton.css';
+
+const Button = ({children}) => {
+  return (
+    <button type="submit" className='boton'>{ children }</button>
+  )
+}
 
 function App() {
   const [photos, setPhotos] = useState([]);
   const open = url => window.open(url);
-  console.log({photos});
   return (
     <div>
       <header>
@@ -23,15 +29,17 @@ function App() {
             setPhotos(data.results);
           }}>
           <Form>
-            <Field name='search' />
+            <label>Ingrese una palabra para buscar una imagen en la API de unsplash: </label>
+            <Field  name='search' />
+            <Button>Buscar</Button>
           </Form>
         </Formik>
       </header>
       <div className='container'>
-        <div className="center">
+        <div className='center'>
           {photos.map(photo =>
             <article key={photo.id} onClick={() => open(photo.links.html)}>
-              <img src={photo.urls.regular}/>
+              <img src={photo.urls.regular} loading="lazy"/>
               <p>{[photo.description, photo.alt_description].join(' - ')}</p>
             </article>
           )}
